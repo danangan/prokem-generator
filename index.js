@@ -240,7 +240,17 @@ function generateProkem(word) {
 }
 
 // Test
-let gokil = generateProkem("gila");
-let sepatu = generateProkem("sepatu");
+// let gokil = generateProkem("gila");
+// let sepatu = generateProkem("sepatu");
 // console.log(gokil, "should be", "gokil");
 // console.log(sepatu, "should be", "sepokat");
+
+const submitButton = document.getElementsByClassName("submit-button")[0];
+const textInput = document.getElementsByClassName("text-input")[0];
+const resultBlock = document.getElementsByClassName("result-block")[0];
+
+submitButton.addEventListener("click", function () {
+  const val = textInput.value;
+  const result = generateProkem(val);
+  resultBlock.textContent = result;
+});
