@@ -4,16 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prokem Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@0.7.4/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-  <div class="form">
-    <input class="text-input"type="text">
-    <button class="submit-button">Kirim</button>
+  <div class="container mx-auto">
+    <h1 class="font-serif">Prokem Generator</h1>
+    <div class="form">
+      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline text-input"type="text">
+      <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded submit-button my-4">Kirim</button>
+    </div>
+    <div class="text-lg mt-4">
+      <span>Hasil :</span>
+      <span class="result-block"></span>
+    </div>
   </div>
-  <div>
-    <span>Hasil :</span>
-    <span class="result-block"></span>
-  </div>
+  <script src="/index.js"></script>
 </body>
-<script src="/index.js"></script>
 </html>
