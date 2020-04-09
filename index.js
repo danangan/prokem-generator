@@ -317,7 +317,7 @@ submitButton.addEventListener("click", function () {
   let result;
   try {
     const val = textInput.value;
-    result = generateProkem(val);
+    result = generateProkem(val.toLowerCase());
   } catch (catchedError) {
     error = catchedError;
   }
