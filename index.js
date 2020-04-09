@@ -304,9 +304,13 @@ function isPairOfSpokenConsonant(firstLetter, secondLetter) {
 // console.log(gokil, "should be", "gokil");
 // console.log(sepatu, "should be", "sepokat");
 
-const submitButton = document.getElementsByClassName("submit-button")[0];
-const textInput = document.getElementsByClassName("text-input")[0];
-const resultBlock = document.getElementsByClassName("result-block")[0];
+const submitButton = document.getElementById("submit-button");
+const textInput = document.getElementById("text-input");
+const translationResult = document.getElementById("translation-result");
+const resultBlock = document.getElementById("result-block");
+const errorBlock = document.getElementById("error-block");
+const closeResultBlock = document.getElementById("close-result-block");
+const closeErrorBlock = document.getElementById("close-error-block");
 
 submitButton.addEventListener("click", function () {
   let error;
@@ -319,8 +323,29 @@ submitButton.addEventListener("click", function () {
   }
 
   if (result && !error) {
-    resultBlock.textContent = result;
+    hideElement(errorBlock);
+    displayElement(resultBlock);
+    translationResult.textContent = result;
   } else {
-    resultBlock.textContent = "Kata tidak bisa ditranslasikan ke prokem!";
+    hideElement(resultBlock);
+    displayElement(errorBlock);
   }
 });
+
+closeResultBlock.addEventListener("click", function () {
+  hideElement(resultBlock);
+});
+
+closeErrorBlock.addEventListener("click", function () {
+  hideElement(errorBlock);
+});
+
+function displayElement(element) {
+  element.classList.remove("hidden");
+  element.classList.add("block");
+}
+
+function hideElement(element) {
+  element.classList.remove("block");
+  element.classList.add("hidden");
+}
