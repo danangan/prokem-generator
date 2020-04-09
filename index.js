@@ -234,7 +234,7 @@ function generateProkem(word) {
   const targetSyllableIndex = syllabels.length === 1 ? 1 : syllabels.length - 1;
 
   let targetSyllable = syllabels.getNthElement(targetSyllableIndex);
-  console.log(targetSyllable);
+
   if (isVocal(targetSyllable.last())) {
     targetSyllable = targetSyllable.concat(
       syllabels.getNthElement(syllabels.length).first()
@@ -309,9 +309,16 @@ const textInput = document.getElementsByClassName("text-input")[0];
 const resultBlock = document.getElementsByClassName("result-block")[0];
 
 submitButton.addEventListener("click", function () {
-  const val = textInput.value;
-  const result = generateProkem(val);
-  if (result) {
+  let error;
+  let result;
+  try {
+    const val = textInput.value;
+    result = generateProkem(val);
+  } catch (catchedError) {
+    error = catchedError;
+  }
+
+  if (result && !error) {
     resultBlock.textContent = result;
   } else {
     resultBlock.textContent = "Kata tidak bisa ditranslasikan ke prokem!";
