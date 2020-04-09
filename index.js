@@ -235,7 +235,7 @@ function generateProkem(word) {
 
   let targetSyllable = syllabels.getNthElement(targetSyllableIndex);
 
-  if (isVocal(targetSyllable.last())) {
+  if (syllabels.length != 1 && isVocal(targetSyllable.last())) {
     targetSyllable = targetSyllable.concat(
       syllabels.getNthElement(syllabels.length).first()
     );
