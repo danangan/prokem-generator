@@ -193,12 +193,17 @@ function getSyllabels(word, syllabels = []) {
 // console.log(o, "should be", ["o"]);
 
 function isVocal(letter) {
-  switch (letter.toLowerCase()) {
+  switch (letter) {
     case "a":
     case "i":
     case "u":
     case "e":
     case "o":
+    case "A":
+    case "I":
+    case "U":
+    case "E":
+    case "O":
       return true;
       break;
     default:
@@ -216,27 +221,81 @@ function removeLastLetter(word) {
 }
 
 function generateProkem(word) {
+  if (!isWordProkemizable(word)) {
+    return undefined;
+  }
+
   const syllabels = getSyllabels(word);
 
   if (syllabels.length === 0 || syllabels.length > 3) {
     return null;
   }
 
-  let targetSyllable = syllabels.getNthElement(syllabels.length - 1);
+  const targetSyllableIndex = syllabels.length === 1 ? 1 : syllabels.length - 1;
+
+  let targetSyllable = syllabels.getNthElement(targetSyllableIndex);
+  console.log(targetSyllable);
   if (isVocal(targetSyllable.last())) {
     targetSyllable = targetSyllable.concat(
       syllabels.getNthElement(syllabels.length).first()
     );
   }
 
-  targetSyllable = `${targetSyllable.first()}ok${targetSyllable.slice(
-    1,
-    targetSyllable.length
-  )}`;
+  const [firstConsonant, restSyllable] = pluckFirstConsonant(targetSyllable);
+
+  const prokemizedSyllable = `${firstConsonant}ok${restSyllable}`;
 
   const prefixSyllable = syllabels.getNthElement(syllabels.length - 2);
 
-  return (prefixSyllable || "") + targetSyllable;
+  return (prefixSyllable || "") + prokemizedSyllable;
+}
+
+function isWordProkemizable(word) {
+  if (word.length === 0) {
+    return false;
+  }
+
+  if (isVocal(word.first().toLowerCase())) {
+    return false;
+  }
+
+  return true;
+}
+
+function pluckFirstConsonant(word) {
+  if (word.length === 0) {
+    return undefined;
+  }
+
+  const firstLetter = word.first();
+  const secondLetter = word[1];
+  let consonant;
+
+  if (isVocal(consonant)) {
+    return undefined;
+  }
+
+  if (isPairOfSpokenConsonant(firstLetter, secondLetter)) {
+    consonant = firstLetter + secondLetter;
+    word = word.slice(2, word.length);
+  } else {
+    consonant = firstLetter;
+    word = word.slice(1, word.length);
+  }
+
+  return [consonant, word];
+}
+
+function isPairOfSpokenConsonant(firstLetter, secondLetter) {
+  if (firstLetter === "n" && (secondLetter === "y" || secondLetter === "g")) {
+    return true;
+  }
+
+  if (isConsonant(firstLetter) && secondLetter === "r") {
+    return true;
+  }
+
+  return false;
 }
 
 // Test
@@ -252,5 +311,9 @@ const resultBlock = document.getElementsByClassName("result-block")[0];
 submitButton.addEventListener("click", function () {
   const val = textInput.value;
   const result = generateProkem(val);
-  resultBlock.textContent = result;
+  if (result) {
+    resultBlock.textContent = result;
+  } else {
+    resultBlock.textContent = "Kata tidak bisa ditranslasikan ke prokem!";
+  }
 });
